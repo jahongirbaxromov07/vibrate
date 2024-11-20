@@ -74,9 +74,14 @@
             display: none; /* Hidden by default */
         }
 
-        /* Prevent user from scrolling or interacting */
+        /* Prevent user interactions while vibration */
         body.blocked {
             overflow: hidden;
+        }
+
+        /* Make sure the whole screen is not clickable */
+        .blocked * {
+            pointer-events: none;  /* Disable any interaction */
         }
     </style>
 </head>
