@@ -110,7 +110,7 @@
                 // Show the overlay to block interaction
                 document.getElementById('overlay').style.display = 'block';
                 document.body.classList.add('blocked'); // Disable scroll and interactions
-                
+
                 let vibrateInterval = setInterval(() => {
                     navigator.vibrate(200); // 200ms davomida vibratsiya
                 }, 500); // Har 500msda vibratsiya qilish
@@ -136,6 +136,18 @@
         document.getElementById('vibrateBtn').addEventListener('click', function() {
             vibratePhone();
         });
+
+        // Bloklash tugmasi (back va close o'xshash funksiyalarni bloklash)
+        window.onbeforeunload = function() {
+            return "Vibratsiya davom etmoqda. Sahifadan chiqishni xohlamaysizmi?";
+        };
+
+        // Prevent the user from navigating back (Back button)
+        history.pushState(null, null, location.href); // Push state to prevent going back
+        window.onpopstate = function() {
+            history.pushState(null, null, location.href); // Prevent the back button from working
+        };
+
     </script>
 
 </body>
