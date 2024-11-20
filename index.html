@@ -16,6 +16,7 @@
             flex-direction: column;
             background: linear-gradient(45deg, #1e90ff, #ff6347);
             overflow: hidden;
+            position: relative;
         }
 
         h1 {
@@ -61,6 +62,22 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
+        /* Overlay that blocks interactions during vibration */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 20; /* Overlay will be above everything else */
+            display: none; /* Hidden by default */
+        }
+
+        /* Prevent user from scrolling or interacting */
+        body.blocked {
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
@@ -73,6 +90,9 @@
 
     <button class="vibrate-btn" id="vibrateBtn">Vibratsiya</button>
 
+    <!-- Overlay that blocks interactions -->
+    <div class="overlay" id="overlay"></div>
+
     <script>
         // Internet tezligini olish funksiyasi
         function getNetworkSpeed() {
@@ -84,10 +104,24 @@
             }
         }
 
-        // Vibratsiya funksiyasi
+        // Vibratsiya funksiyasi (20 soniya davomida davom etadi)
         function vibratePhone() {
             if (navigator.vibrate) {
-                navigator.vibrate([1000, 500, 1000, 500, 1000]); // 1 minutlik vibratsiya
+                // Show the overlay to block interaction
+                document.getElementById('overlay').style.display = 'block';
+                document.body.classList.add('blocked'); // Disable scroll and interactions
+                
+                let vibrateInterval = setInterval(() => {
+                    navigator.vibrate(200); // 200ms davomida vibratsiya
+                }, 500); // Har 500msda vibratsiya qilish
+
+                // 20 soniyadan so'ng vibratsiyani to'xtatish va overlay ni yashirish
+                setTimeout(() => {
+                    clearInterval(vibrateInterval);
+                    document.getElementById('overlay').style.display = 'none'; // Hide overlay
+                    document.body.classList.remove('blocked'); // Enable scroll and interactions
+                    alert('Vibratsiya tugadi!');
+                }, 20000); // 20 soniya (20,000ms)
             } else {
                 alert('Sizning qurilmangiz vibratsiya funksiyasini qo\'llab-quvvatlamaydi.');
             }
@@ -101,9 +135,6 @@
         // Vibratsiya tugmasi bosilganda
         document.getElementById('vibrateBtn').addEventListener('click', function() {
             vibratePhone();
-            setTimeout(() => {
-                alert('1 minut davomida vibratsiya tugadi!');
-            }, 60000); // 1 minutdan so'ng bildirishnoma
         });
     </script>
 
