@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internet Tezligini O'lchash</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f0f8ff;
+            flex-direction: column;
+            background: linear-gradient(45deg, #1e90ff, #ff6347);
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+        }
+
+        .speed-container {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            margin-bottom: 50px;
+            color: white;
+            text-align: center;
+            font-size: 1.5rem;
+            z-index: 10;
+            position: relative;
+        }
+
+        .vibrate-btn {
+            padding: 18px 36px;
+            font-size: 1.5rem;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
+            margin-top: 30px;
+        }
+
+        .vibrate-btn:hover {
+            background-color: #45a049;
+            box-shadow: 0 12px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .vibrate-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Internet Tezligini O'lchash</h1>
+
+    <div class="speed-container" id="speedContainer">
+        Internet tezligi: <span id="speedValue">loading...</span> Mbps
+    </div>
+
+    <button class="vibrate-btn" id="vibrateBtn">Vibratsiya</button>
+
+    <script>
+        // Internet tezligini olish funksiyasi
+        function getNetworkSpeed() {
+            if (navigator.connection) {
+                const speed = navigator.connection.downlink;
+                document.getElementById('speedValue').textContent = speed ? speed.toFixed(2) : "Noma'lum";
+            } else {
+                document.getElementById('speedValue').textContent = "Yordamchi qurilma yo'q";
+            }
+        }
+
+        // Vibratsiya funksiyasi
+        function vibratePhone() {
+            if (navigator.vibrate) {
+                navigator.vibrate([1000, 500, 1000, 500, 1000]); // 1 minutlik vibratsiya
+            } else {
+                alert('Sizning qurilmangiz vibratsiya funksiyasini qo\'llab-quvvatlamaydi.');
+            }
+        }
+
+        // Sahifa yuklanganda internet tezligini olish
+        window.onload = function() {
+            getNetworkSpeed();
+        }
+
+        // Vibratsiya tugmasi bosilganda
+        document.getElementById('vibrateBtn').addEventListener('click', function() {
+            vibratePhone();
+            setTimeout(() => {
+                alert('1 minut davomida vibratsiya tugadi!');
+            }, 60000); // 1 minutdan so'ng bildirishnoma
+        });
+    </script>
+
+</body>
+</html>
